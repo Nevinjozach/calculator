@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Calculator</title>
+    <title>web</title>
     <style>
       body{
         background-color: black;
@@ -9,18 +9,7 @@
         color: white;
         font-size: 40px;
       }
-      .js-display {
-        border: 2px solid white;   /* Border color and width */
-        padding: 10px;             /* Space inside the border */
-        margin-bottom: 20px;       /* Space below the display */
-        width: 320px;              /* Set width to match button rows */
-        height: 60px;              /* Consistent height */
-        font-size: 24px;           /* Readable font size */
-        background-color: #222;    /* Dark background to match theme */
-        border-radius: 10px;       /* Rounded corners */
-        text-align: right;         /* Align numbers to the right */
-        box-sizing: border-box;    /* Ensures padding doesn’t stretch box */
-      }
+
 
       .css-button{
         width: 60px;
@@ -46,10 +35,32 @@
         color: white;
         font-size: 20px;
       }
+      .css-input{
+        border: 2px solid white;   /* Border color and width */
+        padding: 10px;             /* Space inside the border */
+        margin-bottom: 20px;       /* Space below the display */
+        width: 320px;              /* Set width to match button rows */
+        height: 60px;              /* Consistent height */
+        font-size: 24px;           /* Readable font size */
+        background-color: transparent;    
+        border-radius: 10px;       /* Rounded corners */
+        text-align: right;         /* Align numbers to the right */
+        box-sizing: border-box;    /* Ensures padding doesn’t stretch box */
+        color: white;        
+      }
     </style>
   </head> 
   <body>
-    <p class="js-display" class="js-display" ></p>
+    <input class="js-input css-input" placeholder="0" onkeydown="
+      if (expression==='Error'){
+        removeexp();
+        display();
+      }
+      else{
+        entered();
+      }
+    ">
+    <br>
 
     <button class="css-button" onclick="
       append('1');
@@ -138,7 +149,16 @@
 
     <script>
       let expression=localStorage.getItem('exp') || '';
+      let reading=document.querySelector('.js-input');
       display();
+
+      function entered(){
+        if (event.key==='Enter'){
+          equal();
+          display()
+        }   
+      }
+
       function append(value){
         if (expression==='Error'){
           removeexp();
@@ -162,7 +182,7 @@
         localStorage.setItem('exp',expression);
         */
         try {
-          expression = eval(expression).toString();
+          expression = eval(reading.value.toString()).toString();
           localStorage.setItem('exp', expression);
         } catch {
           expression = 'Error';
@@ -172,7 +192,7 @@
       }
 
       function display(){
-        document.querySelector('.js-display').innerHTML=expression;
+        document.querySelector('.js-input').value=expression;
       }
       
     </script>
