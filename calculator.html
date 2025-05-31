@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>web</title>
+    <style>
+      body{
+        background-color: black;
+        font-family: Arial;
+        color: white;
+        font-size: 40px;
+      }
+      .js-display {
+        border: 2px solid white;   /* Border color and width */
+        padding: 10px;             /* Space inside the border */
+        margin-bottom: 20px;       /* Space below the display */
+        width: 320px;              /* Set width to match button rows */
+        height: 60px;              /* Consistent height */
+        font-size: 24px;           /* Readable font size */
+        background-color: #222;    /* Dark background to match theme */
+        border-radius: 10px;       /* Rounded corners */
+        text-align: right;         /* Align numbers to the right */
+        box-sizing: border-box;    /* Ensures padding doesn’t stretch box */
+      }
+
+      .css-button{
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        border-radius: 100px;
+        border: none;
+        background-color: gray;
+        color: white;
+        font-size: 20px;
+      }
+      .css-buttonexp{
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        border-radius: 100px;
+        border: none;
+        background-color: orange;
+        color: white;
+        font-size: 20px;
+      }
+    </style>
+  </head> 
+  <body>
+    <p class="js-display" class="js-display" ></p>
+
+    <button class="css-button" onclick="
+      append('1');
+      display();
+    ">1</button>
+    
+    <button class="css-button" onclick="
+      append('2');
+      display();
+    ">2</button>
+
+    <button class="css-button" onclick="
+      append('3');
+      display();
+    ">3</button>
+
+    <button class="css-buttonexp" onclick="
+      append('+');
+      display();
+    ">+</button>
+    <br>
+    <button class="css-button" onclick="
+      append('4');
+      display();
+    ">4</button>
+
+    <button class="css-button" onclick="
+      append('5');
+      display();
+    ">5</button>
+
+    <button class="css-button" onclick="
+      append('6');
+      display();
+    ">6</button>
+
+    <button class="css-buttonexp" onclick="
+      append('-');
+      display();
+    ">-</button>
+    <br>
+    <button class="css-button" onclick="
+      append('7');
+      display();
+    ">7</button>
+
+    <button class="css-button" onclick="
+      append('8');
+      display();
+    ">8</button>
+
+    <button class="css-button" onclick="
+      append('9');
+      display();
+    ">9</button>
+
+    <button class="css-buttonexp" onclick="
+      append('*');
+      display();
+    ">*</button>
+    <br>
+    <button class="css-button" onclick="
+      append('0');
+      display();
+    ">0</button>
+
+    <button class="css-button" onclick="
+      append('.');
+      display();
+    ">.</button>
+    
+    <button class="css-button" onclick="
+      equal();
+      display();
+    ">=</button>
+
+    <button class="css-buttonexp" onclick="
+      append('/');
+      display();
+    ">/</button>
+    <br>
+    <button class="css-button" onclick="
+      removeexp();
+      display();
+    ">Clear</button>
+
+    <script>
+      let expression=localStorage.getItem('exp') || '';
+      display();
+      function append(value){
+        if (expression==='Error'){
+          removeexp();
+          append(value);
+        }
+        else{
+          expression=expression+value;
+          localStorage.setItem('exp',expression);
+          display();
+        }
+      }
+
+      function removeexp(){
+        expression='';
+        localStorage.setItem('exp',expression);
+      }
+
+      function equal(){
+        /*
+        expression=eval(expression);
+        localStorage.setItem('exp',expression);
+        */
+        try {
+          expression = eval(expression).toString();
+          localStorage.setItem('exp', expression);
+        } catch {
+          expression = 'Error';
+        }
+        display();
+    
+      }
+
+      function display(){
+        document.querySelector('.js-display').innerHTML=expression;
+      }
+      
+    </script>
+  </body>
+</html>
