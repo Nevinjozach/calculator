@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>web</title>
+    <title>Calculator2.0</title>
     <style>
       body{
         background-color: black;
@@ -52,14 +52,22 @@
   </head> 
   <body>
     <input class="js-input css-input" placeholder="0" onkeydown="
-      if (expression==='Error'){
-        removeexp();
-        display();
+      if (state === 0){
+        if (event.key >='0'&& event.key <= '9')
+        {
+          removeexp();
+          display();
+          state=1;
+        }
+        else{
+          state=1;
+          entered();
+        }
       }
       else{
         entered();
       }
-    ">
+    " onkeyup="localStorage.setItem('exp', reading.value);">
     <br>
 
     <button class="css-button" onclick="
@@ -150,6 +158,7 @@
     <script>
       let expression=localStorage.getItem('exp') || '';
       let reading=document.querySelector('.js-input');
+      let state=1;
       display();
 
       function entered(){
@@ -160,11 +169,19 @@
       }
 
       function append(value){
-        if (expression==='Error'){
-          removeexp();
-          append(value);
+        if (state === 0){
+          if (value >='0'&& value <= '9')
+          {
+            removeexp();
+            state=1;
+            append(value);
+          }
+          else{
+            state=1;
+            append(value);
+          }
         }
-        else{
+        else if (state===1){
           expression=expression+value;
           localStorage.setItem('exp',expression);
           display();
@@ -184,8 +201,10 @@
         try {
           expression = eval(reading.value.toString()).toString();
           localStorage.setItem('exp', expression);
+          state=0;
         } catch {
           expression = 'Error';
+          state=0;
         }
         display();
     
